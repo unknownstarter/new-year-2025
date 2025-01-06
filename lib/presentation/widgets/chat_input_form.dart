@@ -50,6 +50,7 @@ class _ChatInputFormState extends State<ChatInputForm> {
       _messages.add(ChatMessage(
         text: text,
         isUser: true,
+        userInput: text,
       ));
       _controller.clear();
     });
@@ -71,10 +72,6 @@ class _ChatInputFormState extends State<ChatInputForm> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _focusNode.unfocus();
-    });
-
-    setState(() {
-      _messages.add(ChatMessage(text: text, isUser: true, userInput: text));
     });
 
     _scrollToBottom();
