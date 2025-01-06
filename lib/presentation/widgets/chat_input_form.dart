@@ -140,29 +140,29 @@ class _ChatInputFormState extends State<ChatInputForm> {
 
               // 운세 결과를 채팅 메시지로 추가
               _messages.add(ChatMessage(
-                text: result['overall'],
-                type: 'fortune',
+                text: '${user.name}님의 2025년 운세입니다.',
+                type: 'system',
               ));
-              _messages.add(ChatMessage(
-                text: result['love'],
-                type: 'fortune',
-              ));
-              _messages.add(ChatMessage(
-                text: result['money'],
-                type: 'fortune',
-              ));
-              _messages.add(ChatMessage(
-                text: result['health'],
-                type: 'fortune',
-              ));
-              _messages.add(ChatMessage(
-                text: result['career'],
-                type: 'fortune',
-              ));
-              _messages.add(ChatMessage(
-                text: result['quarterly'],
-                type: 'fortune',
-              ));
+
+              // 각 섹션을 개별 메시지로 표시
+              final sections = [
+                result['overall'],
+                result['love'],
+                result['money'],
+                result['health'],
+                result['career'],
+                result['quarterly'],
+              ];
+
+              // null이 아닌 섹션만 표시
+              for (final section in sections) {
+                if (section != null && section.isNotEmpty) {
+                  _messages.add(ChatMessage(
+                    text: section,
+                    type: 'fortune',
+                  ));
+                }
+              }
 
               _messages.add(ChatMessage(
                 text:
