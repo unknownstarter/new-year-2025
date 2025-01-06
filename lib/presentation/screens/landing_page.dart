@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:new_year_2025/presentation/screens/fortune_chat_page.dart';
 import 'package:lottie/lottie.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
-class LandingPage extends StatelessWidget {
+class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
+
+  @override
+  State<LandingPage> createState() => _LandingPageState();
+}
+
+class _LandingPageState extends State<LandingPage> {
+  @override
+  void initState() {
+    super.initState();
+    // 랜딩 페이지 진입 이벤트
+    FirebaseAnalytics.instance.logEvent(
+      name: 'view_landing_page',
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +63,12 @@ class LandingPage extends StatelessWidget {
                 width: double.infinity,
                 height: 56,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    // 운세보기 버튼 클릭 이벤트
+                    await FirebaseAnalytics.instance.logEvent(
+                      name: 'click_fortune_button',
+                    );
+
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => const FortuneChatPage(),

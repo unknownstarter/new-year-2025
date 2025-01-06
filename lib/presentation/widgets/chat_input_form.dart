@@ -6,6 +6,7 @@ import 'package:new_year_2025/core/providers/user_provider.dart';
 import 'package:new_year_2025/core/providers/fortune_provider.dart';
 import 'package:new_year_2025/presentation/widgets/chat_bubble.dart';
 import 'package:lottie/lottie.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 class ChatInputForm extends StatefulWidget {
   const ChatInputForm({super.key});
@@ -45,17 +46,35 @@ class _ChatInputFormState extends State<ChatInputForm> {
   void _handleSubmit(String text) async {
     if (text.isEmpty) return;
 
-    final currentText = text;
+    setState(() {
+      _messages.add(ChatMessage(
+        text: text,
+        isUser: true,
+      ));
+      _controller.clear();
+    });
 
-    _controller.clear();
+    // 현재 입력 단계 추적
+    if (_name == null) {
+      await FirebaseAnalytics.instance.logEvent(
+        name: 'input_name',
+      );
+    } else if (_gender == null) {
+      await FirebaseAnalytics.instance.logEvent(
+        name: 'input_gender',
+      );
+    } else if (_birthDateTime == null) {
+      await FirebaseAnalytics.instance.logEvent(
+        name: 'input_birth_date',
+      );
+    }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _focusNode.unfocus();
     });
 
     setState(() {
-      _messages.add(
-          ChatMessage(text: currentText, isUser: true, userInput: currentText));
+      _messages.add(ChatMessage(text: text, isUser: true, userInput: text));
     });
 
     _scrollToBottom();
@@ -133,6 +152,16 @@ class _ChatInputFormState extends State<ChatInputForm> {
           try {
             final result =
                 await context.read<FortuneProvider>().getFortune(user);
+
+            // 운세 완료 이벤트 기록
+            await FirebaseAnalytics.instance.logEvent(
+              name: 'complete_fortune',
+              parameters: {
+                'user_name': user.name,
+                'user_gender': user.gender,
+                'user_birth_year': user.birthDateTime.year.toString(),
+              },
+            );
 
             setState(() {
               // 로딩 메시지 제거
