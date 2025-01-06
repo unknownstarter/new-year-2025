@@ -45,12 +45,19 @@ class _ChatInputFormState extends State<ChatInputForm> {
   void _handleSubmit(String text) async {
     if (text.isEmpty) return;
 
-    _focusNode.unfocus();
+    final currentText = text;
+
+    _controller.clear();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.unfocus();
+    });
 
     setState(() {
-      _messages.add(ChatMessage(text: text, isUser: true, userInput: text));
+      _messages.add(
+          ChatMessage(text: currentText, isUser: true, userInput: currentText));
     });
-    _controller.clear();
+
     _scrollToBottom();
 
     final lastQuestion = _messages.lastWhere((m) => !m.isUser);
@@ -214,7 +221,6 @@ class _ChatInputFormState extends State<ChatInputForm> {
   }
 
   void _scrollToBottom() {
-    // 다음 프레임에서 스크롤 실행
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _isAutoScrolling = true;
@@ -224,7 +230,7 @@ class _ChatInputFormState extends State<ChatInputForm> {
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeOut,
             )
-            .then((_) => _isAutoScrolling = false);
+            .whenComplete(() => _isAutoScrolling = false);
       }
     });
   }

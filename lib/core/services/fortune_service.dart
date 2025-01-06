@@ -7,7 +7,6 @@ import 'package:new_year_2025/core/models/user.dart';
 class FortuneService {
   static const String _apiUrl = 'https://api.openai.com/v1/chat/completions';
 
-  // API 키를 가져오는 방식 수정
   static String get _apiKey {
     final key = js.context['env']?['OPENAI_API_KEY'];
     if (key == null) {
@@ -40,11 +39,17 @@ class FortuneService {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(utf8.decode(response.bodyBytes));
+        final content = data['choices'][0]['message']['content'];
+
         return {
-          'fortune': data['choices'][0]['message']['content'],
+          'overall': content.split('\n\n')[0],
+          'love': content.split('\n\n')[1],
+          'money': content.split('\n\n')[2],
+          'health': content.split('\n\n')[3],
         };
       } else {
-        throw Exception('Failed to get fortune: ${response.body}');
+        print('Error response: ${response.body}');
+        throw Exception('Failed to get fortune: ${response.statusCode}');
       }
     } catch (e) {
       print('Error getting fortune: $e');
