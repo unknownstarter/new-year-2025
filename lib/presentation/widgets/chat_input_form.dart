@@ -143,19 +143,24 @@ class _ChatInputFormState extends State<ChatInputForm> {
                 text: result['overall'],
                 type: 'fortune',
               ));
-
               _messages.add(ChatMessage(
                 text: result['love'],
                 type: 'fortune',
               ));
-
               _messages.add(ChatMessage(
                 text: result['money'],
                 type: 'fortune',
               ));
-
               _messages.add(ChatMessage(
                 text: result['health'],
+                type: 'fortune',
+              ));
+              _messages.add(ChatMessage(
+                text: result['career'],
+                type: 'fortune',
+              ));
+              _messages.add(ChatMessage(
+                text: result['quarterly'],
                 type: 'fortune',
               ));
 
