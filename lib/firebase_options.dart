@@ -20,17 +20,13 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: String.fromEnvironment('FIREBASE_API_KEY', defaultValue: ''),
-    appId: String.fromEnvironment('FIREBASE_APP_ID', defaultValue: ''),
-    messagingSenderId:
-        String.fromEnvironment('FIREBASE_SENDER_ID', defaultValue: ''),
-    projectId: String.fromEnvironment('FIREBASE_PROJECT_ID', defaultValue: ''),
-    authDomain:
-        String.fromEnvironment('FIREBASE_AUTH_DOMAIN', defaultValue: ''),
-    storageBucket:
-        String.fromEnvironment('FIREBASE_STORAGE_BUCKET', defaultValue: ''),
-    measurementId:
-        String.fromEnvironment('FIREBASE_MEASUREMENT_ID', defaultValue: ''),
+    apiKey: 'AIzaSyDtQVSOLb56_QvYQhRHRF4Xan1xpEu9aas',
+    appId: '1:1021442594880:web:38d0db3d0eeb2f0f7aa7a5',
+    messagingSenderId: '1021442594880',
+    projectId: 'new-year-2025-7cdc8',
+    authDomain: 'new-year-2025-7cdc8.firebaseapp.com',
+    storageBucket: 'new-year-2025-7cdc8.firebasestorage.app',
+    measurementId: 'G-NMDTX9RED6',
   );
 
   static const FirebaseOptions android = FirebaseOptions(

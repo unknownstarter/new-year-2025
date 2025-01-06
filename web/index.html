@@ -35,27 +35,39 @@
   <!-- 환경 변수 -->
   <script src="env.js"></script>
   
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js"></script>
-</head>
-<body>
-  <script>
-    // Firebase 설정을 환경 변수로 이동
+  <!-- Firebase SDK 부분을 수정 -->
+  <!-- 기존 스크립트 제거 -->
+  <!-- <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script> -->
+  <!-- <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js"></script> -->
+
+  <!-- 모듈 방식으로 변경 -->
+  <script type="module">
+    // Firebase SDK 임포트
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js';
+    import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js';
+
+    // Firebase 설정
     const firebaseConfig = {
-      apiKey: window.env.FIREBASE_API_KEY || '',
-      authDomain: window.env.FIREBASE_AUTH_DOMAIN || '',
-      projectId: window.env.FIREBASE_PROJECT_ID || '',
-      storageBucket: window.env.FIREBASE_STORAGE_BUCKET || '',
-      messagingSenderId: window.env.FIREBASE_SENDER_ID || '',
-      appId: window.env.FIREBASE_APP_ID || '',
-      measurementId: window.env.FIREBASE_MEASUREMENT_ID || ''
+      apiKey: window.env.FIREBASE_API_KEY,
+      authDomain: window.env.FIREBASE_AUTH_DOMAIN,
+      projectId: window.env.FIREBASE_PROJECT_ID,
+      storageBucket: window.env.FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: window.env.FIREBASE_SENDER_ID,
+      appId: window.env.FIREBASE_APP_ID,
+      measurementId: window.env.FIREBASE_MEASUREMENT_ID
     };
 
     // Firebase 초기화
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
   </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

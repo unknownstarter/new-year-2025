@@ -63,3 +63,6 @@ build/
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
+
+# 환경 변수 파일
+web/env.js

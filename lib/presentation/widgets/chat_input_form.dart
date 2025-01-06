@@ -323,6 +323,8 @@ class _ChatInputFormState extends State<ChatInputForm> {
                     contentPadding: EdgeInsets.symmetric(horizontal: 16),
                   ),
                   onSubmitted: _handleSubmit,
+                  key: const Key('chat_input'),
+                  textInputAction: TextInputAction.done,
                 ),
               ),
               IconButton(
