@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="2025년 새해 운세">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="2025 새해 운세">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>2025 새해 운세</title>
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- 환경 변수 -->
+  <script src="env.js"></script>
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js"></script>
+</head>
+<body>
+  <script>
+    // Firebase 설정을 환경 변수로 이동
+    const firebaseConfig = {
+      apiKey: window.env.FIREBASE_API_KEY || '',
+      authDomain: window.env.FIREBASE_AUTH_DOMAIN || '',
+      projectId: window.env.FIREBASE_PROJECT_ID || '',
+      storageBucket: window.env.FIREBASE_STORAGE_BUCKET || '',
+      messagingSenderId: window.env.FIREBASE_SENDER_ID || '',
+      appId: window.env.FIREBASE_APP_ID || '',
+      measurementId: window.env.FIREBASE_MEASUREMENT_ID || ''
+    };
+
+    // Firebase 초기화
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
