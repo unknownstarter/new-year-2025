@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:new_year_2025/core/models/chat_message.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 class ChatBubble extends StatelessWidget {
   final ChatMessage message;
@@ -15,6 +16,10 @@ class ChatBubble extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: TextButton(
           onPressed: () async {
+            await FirebaseAnalytics.instance.logEvent(
+              name: 'feedback_link_click',
+            );
+
             final url = Uri.parse(message.text);
             if (await canLaunchUrl(url)) {
               await launchUrl(url, mode: LaunchMode.externalApplication);

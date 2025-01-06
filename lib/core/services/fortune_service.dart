@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'dart:js' as js;
 import 'package:intl/intl.dart';
 import 'package:new_year_2025/core/models/user.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 class FortuneService {
   static const String _apiUrl = 'https://api.openai.com/v1/chat/completions';
+  final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
 
   static String get _apiKey {
     final key = js.context['env']?['OPENAI_API_KEY'];
@@ -17,6 +19,16 @@ class FortuneService {
 
   Future<Map<String, dynamic>> getFortune(User user) async {
     try {
+      // 운세 요청 시작 이벤트 기록
+      await _analytics.logEvent(
+        name: 'fortune_request',
+        parameters: {
+          'user_name': user.name,
+          'user_gender': user.gender,
+          'user_birth_year': user.birthDateTime.year.toString(),
+        },
+      );
+
       final response = await http.post(
         Uri.parse(_apiUrl),
         headers: {
@@ -63,6 +75,14 @@ class FortuneService {
       );
 
       if (response.statusCode == 200) {
+        // 운세 요청 성공 이벤트 기록
+        await _analytics.logEvent(
+          name: 'fortune_success',
+          parameters: {
+            'user_name': user.name,
+          },
+        );
+
         final data = jsonDecode(utf8.decode(response.bodyBytes));
         final content = data['choices'][0]['message']['content'];
 
@@ -78,11 +98,26 @@ class FortuneService {
           'quarterly': sections[5], // 분기별 운세
         };
       } else {
+        // 운세 요청 실패 이벤트 기록
+        await _analytics.logEvent(
+          name: 'fortune_error',
+          parameters: {
+            'error_code': response.statusCode.toString(),
+            'error_body': response.body,
+          },
+        );
+
         print('Error response: ${response.body}');
         throw Exception('Failed to get fortune: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error getting fortune: $e');
+      // 예외 발생 시 이벤트 기록
+      await _analytics.logEvent(
+        name: 'fortune_exception',
+        parameters: {
+          'error_message': e.toString(),
+        },
+      );
       rethrow;
     }
   }

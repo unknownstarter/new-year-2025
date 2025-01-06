@@ -22,7 +22,7 @@ jobs:
           };
           EOL
       - run: flutter pub get
-      - run: flutter build web --release --web-renderer canvaskit
+      - run: flutter build web --release --web-renderer canvaskit --dart-define=FLUTTER_WEB_CANVASKIT_URL=https://unpkg.com/canvaskit-wasm@0.37.1/bin/ --pwa-strategy offline-first
       - run: ls build/web
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
