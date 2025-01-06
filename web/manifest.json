@@ -1,0 +1,23 @@
+{
+    "name": "2025 새해 운세",
+    "short_name": "새해 운세",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#FF5733",
+    "theme_color": "#FF5733",
+    "description": "2025년 새해 운세 보기",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
